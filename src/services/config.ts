@@ -1,7 +1,13 @@
 import axios from 'axios'
 import message from '@/utils/message'
 
-const instance = axios.create({ timeout: 1000 * 300 })
+const VITE_PORT = import.meta.env.VITE_PORT
+const DEV = import.meta.env.DEV;
+
+const instance = axios.create({
+   baseURL:DEV?`http://localhost:${VITE_PORT}`:undefined,
+   timeout: 1000 * 300
+})
 
 instance.interceptors.response.use(
   response => {

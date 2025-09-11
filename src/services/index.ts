@@ -1,7 +1,9 @@
 import axios from './config'
 
 // export const SERVER_URL = 'http://localhost:5000'
-export const SERVER_URL = (import.meta.env.MODE === 'development') ? '/api' : 'https://server.pptist.cn'
+export const VITE_BASE = import.meta.env.VITE_BASE;
+export const SERVER_URL = (import.meta.env.MODE === 'development') ? `/pptist/api` : import.meta.env.VITE_AI_SERVER_BASE_URL
+export const VITE_DEV_RUNSERVER = import.meta.env.VITE_DEV_RUNSERVER;
 
 interface AIPPTOutlinePayload {
   content: string
@@ -23,7 +25,7 @@ interface AIWritingPayload {
 
 export default {
   getMockData(filename: string): Promise<any> {
-    return axios.get(`./mocks/${filename}.json`)
+    return axios.get(`${VITE_BASE}/mocks/${filename}.json`)
   },
 
   AIPPT_Outline({

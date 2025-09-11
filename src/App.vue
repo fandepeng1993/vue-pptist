@@ -57,7 +57,7 @@ window.addEventListener('beforeunload', () => {
 </script>
 
 <style lang="scss">
-#app {
+#app-pptist {
   height: 100%;
 }
 </style>

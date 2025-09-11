@@ -325,6 +325,9 @@ const close = () => {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  textarea{
+    font-size: inherit;
+  }
 
   
   .footer {

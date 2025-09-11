@@ -137,6 +137,7 @@ import {
   Command,
   SlideTwo,
   Symbol,
+  Home,
 } from '@icon-park/vue-next'
 
 export interface Icons {
@@ -279,6 +280,7 @@ export const icons: Icons = {
   IconCommand: Command,
   IconSlideTwo: SlideTwo,
   IconSymbol: Symbol,
+  IconHome: Home
 }
 
 export default {
