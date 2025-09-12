@@ -61,8 +61,8 @@ onMounted(async () => {
 
   const [fileUrl] = urlFileList as any[]
   if (!fileUrl) return
-  const releaseUrl = import.meta.env.DEV ? '' : import.meta.env.VITE_API_FILE_URL
-  const file:any = await urlToFileWithMeta(releaseUrl + fileUrl.url)
+  // const releaseUrl = import.meta.env.DEV ? '' : import.meta.env.VITE_API_FILE_URL
+  const file:any = await urlToFileWithMeta(fileUrl.url)
   importPPTXFile([file] as any)
 
 
