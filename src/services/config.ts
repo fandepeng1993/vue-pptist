@@ -2,16 +2,19 @@ import axios from 'axios'
 import message from '@/utils/message'
 
 const VITE_PORT = import.meta.env.VITE_PORT
-const DEV = import.meta.env.DEV;
+const DEV = import.meta.env.DEV
 
 const instance = axios.create({
-   baseURL:DEV?`http://localhost:${VITE_PORT}`:undefined,
-   timeout: 1000 * 300
+  baseURL: DEV ? `http://localhost:${VITE_PORT}` : undefined,
+  timeout: 1000 * 300
 })
 
 instance.interceptors.response.use(
-  response => {
+  (response:any) => {
     if (response.status >= 200 && response.status < 400) {
+      if (response.config?.returnResponse) {
+        return Promise.resolve(response)
+      }
       return Promise.resolve(response.data)
     }
 

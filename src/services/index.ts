@@ -1,9 +1,9 @@
 import axios from './config'
 
 // export const SERVER_URL = 'http://localhost:5000'
-export const VITE_BASE = import.meta.env.VITE_BASE;
+export const VITE_BASE = import.meta.env.VITE_BASE
 export const SERVER_URL = (import.meta.env.MODE === 'development') ? `/pptist/api` : import.meta.env.VITE_AI_SERVER_BASE_URL
-export const VITE_DEV_RUNSERVER = import.meta.env.VITE_DEV_RUNSERVER;
+export const VITE_DEV_RUNSERVER = import.meta.env.VITE_DEV_RUNSERVER
 
 interface AIPPTOutlinePayload {
   content: string

@@ -170,7 +170,7 @@ export default () => {
 
   const isEmptySlide = computed(() => {
     if (slides.value.length > 1) return false
-    if (slides.value[0].elements.length > 0) return false
+    if (slides.value[0] && slides.value[0].elements.length > 0) return false
     return true
   })
 

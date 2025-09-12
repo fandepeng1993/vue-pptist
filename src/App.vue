@@ -10,9 +10,9 @@
 
 
 <script lang="ts" setup>
-import { onMounted } from 'vue'
+import { onMounted, getCurrentInstance, onBeforeUnmount } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useScreenStore, useMainStore, useSnapshotStore, useSlidesStore } from '@/store'
+import { useScreenStore, useMainStore, useSnapshotStore, useSlidesStore, useUserStore } from '@/store'
 import { LOCALSTORAGE_KEY_DISCARDED_DB } from '@/configs/storage'
 import { deleteDiscardedDB } from '@/utils/database'
 import { isPC } from '@/utils/common'
@@ -22,23 +22,50 @@ import Editor from './views/Editor/index.vue'
 import Screen from './views/Screen/index.vue'
 import Mobile from './views/Mobile/index.vue'
 import FullscreenSpin from '@/components/FullscreenSpin.vue'
+import { urlToFileWithMeta } from './utils/url2file'
+import useImport from './hooks/useImport'
+import useSlideHandler from './hooks/useSlideHandler'
+
+
 
 const _isPC = isPC()
 
 const mainStore = useMainStore()
 const slidesStore = useSlidesStore()
 const snapshotStore = useSnapshotStore()
+const userStore = useUserStore()
 const { databaseId } = storeToRefs(mainStore)
 const { slides } = storeToRefs(slidesStore)
 const { screening } = storeToRefs(useScreenStore())
+const { resetSlides } = useSlideHandler()
+const { token } = storeToRefs(userStore)
+const instance = getCurrentInstance() as any
+
+
+
+const {importPPTXFile} = useImport()
 
 if (import.meta.env.MODE !== 'development') {
   window.onbeforeunload = () => false
 }
+onBeforeUnmount(() => {
+  resetSlides()
+})
 
 onMounted(async () => {
-  const slides = await api.getMockData('slides')
-  slidesStore.setSlides(slides)
+  // const slides = await api.getMockData('slides')
+  // slidesStore.setSlides(slides)
+  // console.log(instance.appContext.config.globalProperties.$qiankun.getGlobalState())
+  const {urlFileList = []} = instance.appContext.config.globalProperties.$qiankun.getGlobalState()
+  // console.log(instance.appContext.config.globalProperties.$qiankun.props.globalState.getState())
+
+  const [fileUrl] = urlFileList as any[]
+  if (!fileUrl) return
+  const releaseUrl = import.meta.env.DEV ? '' : import.meta.env.VITE_API_FILE_URL
+  const file:any = await urlToFileWithMeta(releaseUrl + fileUrl.url)
+  importPPTXFile([file] as any)
+
+
 
   await deleteDiscardedDB()
   snapshotStore.initSnapshotDatabase()
