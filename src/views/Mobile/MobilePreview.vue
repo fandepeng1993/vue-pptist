@@ -14,7 +14,7 @@
       <Divider type="vertical" style="height: 30px;" />
       <div class="menu-item" @click="changeMode('player')"><IconFullScreenPlay class="icon" /> 播放</div>
       <Divider type="vertical" style="height: 30px;" />
-      <div class="menu-item ai" @click="openAIPPTDialog()">AIPPT</div>
+      <div class="menu-item ai" v-if="false" @click="openAIPPTDialog()">AIPPT</div>
     </div>
   </div>
 
