@@ -53,18 +53,24 @@ onBeforeUnmount(() => {
 })
 
 onMounted(async () => {
+  
+  /* 之前默认的mock数据 */
   // const slides = await api.getMockData('slides')
   // slidesStore.setSlides(slides)
+
+  /* 从qiankun中获取文件url */
   // console.log(instance.appContext.config.globalProperties.$qiankun.getGlobalState())
-  const {urlFileList = []} = instance.appContext.config.globalProperties.$qiankun.getGlobalState()
+
+  const {pptFileList = []} = instance.appContext.config.globalProperties.$qiankun.getGlobalState()
+  console.log('xxxxxxxxx', pptFileList)
   // console.log(instance.appContext.config.globalProperties.$qiankun.props.globalState.getState())
 
-  const [fileUrl] = urlFileList as any[]
-  if (!fileUrl) return
+  const [pptFile] = pptFileList as any[]
+  if (!pptFile) return
   // const releaseUrl = import.meta.env.DEV ? '' : import.meta.env.VITE_API_FILE_URL
-  const file:any = await urlToFileWithMeta(fileUrl.url)
-  importPPTXFile([file] as any)
 
+  const pptFileUrl:any = await urlToFileWithMeta(pptFile.url)
+  importPPTXFile([pptFileUrl] as any)
 
 
   await deleteDiscardedDB()
