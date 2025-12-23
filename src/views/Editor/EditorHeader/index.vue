@@ -95,9 +95,10 @@
       <!-- <a class="github-link" v-tooltip="'Copyright © 2020-PRESENT pipipi-pikachu'" href="https://github.com/pipipi-pikachu/PPTist" target="_blank">
         <div class="menu-item"><IconGithub class="icon" /></div>
       </a> -->
-      <a class="github-link" v-tooltip="'ToDesk PPT'" href="/" target="_self">
+      <!-- <a class="github-link" v-tooltip="'ToDesk PPT'" href="/" target="_self">
         <div class="menu-item"><IconHome class="icon" /></div>
-      </a>
+      </a> -->
+      <div class="menu-item" v-tooltip="'关闭'" @click="closePPT()"><IconClose class="icon" /></div>
     </div>
 
     <Drawer
@@ -114,13 +115,18 @@
 </template>
 
 <script lang="ts" setup>
-import { nextTick, ref, useTemplateRef, onMounted, onBeforeUnmount } from 'vue'
+// import { nextTick, ref, useTemplateRef, onMounted, onBeforeUnmount } from 'vue'
+import { nextTick, ref, useTemplateRef, getCurrentInstance } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useMainStore, useSlidesStore } from '@/store'
 import useScreening from '@/hooks/useScreening'
 import useImport from '@/hooks/useImport'
 import useSlideHandler from '@/hooks/useSlideHandler'
 import type { DialogForExportTypes } from '@/types/export'
+
+// 获取 qiankun 实例
+const instance = getCurrentInstance()
+const $qiankun = instance?.appContext.config.globalProperties.$qiankun
 
 import HotkeyDoc from './HotkeyDoc.vue'
 import FileInput from '@/components/FileInput.vue'
@@ -171,6 +177,17 @@ const openMarkupPanel = () => {
 
 const openAIPPTDialog = () => {
   mainStore.setAIPPTDialogState(true)
+}
+
+const closePPT = () => {
+  // 通知主应用关闭弹窗
+  if ($qiankun) {
+    $qiankun.dispatchEmitter('pptist-close', {})
+  }
+  else {
+    // 独立运行时，可以跳转到首页或其他处理
+    window.history.back()
+  }
 }
 </script>
 

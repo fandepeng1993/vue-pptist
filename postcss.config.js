@@ -5,7 +5,7 @@ export default {
   plugins: [
     prefixer({
       prefix: '.app-pptist',
-       // 函数返回 true 就跳过
+      // 函数返回 true 就跳过
       exclude: [/^.first-screen-loading/],
       transform(prefix, selector) {
         if (selector === 'html') return `html`

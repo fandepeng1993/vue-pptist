@@ -21,7 +21,7 @@ export default class QianKunStore {
   }
   onEmitterEvent() {
     this.props.emitter.on('main-setToken', (val:any) => {
-      console.log(useUserStore(), val)
+      // console.log(useUserStore(), val)
       useUserStore().updateToken(val.token)
     })
   }
